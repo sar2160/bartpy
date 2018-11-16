@@ -179,12 +179,12 @@ class Data:
         >>> Data.normalize_y([1, 2, 3])
         array([-0.5,  0. ,  0.5])
         """
-        y_min, y_max = np.min(y), np.max(y)
+        y_min, y_max = np.min(y).astype(np.float32), np.max(y).astype(np.float32)
         return -0.5 + ((y - y_min) / (y_max - y_min))
 
     def unnormalize_y(self, y: np.ndarray) -> np.ndarray:
         distance_from_min = y - (-0.5)
-        total_distance = (self.original_y_max - self.original_y_min)
+        total_distance = (self.original_y_max.astype(np.float32) - self.original_y_min.astype(np.float32))
         return self.original_y_min + (distance_from_min * total_distance)
 
     @property
@@ -193,4 +193,4 @@ class Data:
 
     @property
     def normalizing_scale(self) -> float:
-        return self.original_y_max - self.original_y_min
+        return self.original_y_max.astype(np.float) - self.original_y_min.astype(np.float)
